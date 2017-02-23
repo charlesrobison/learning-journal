@@ -1,19 +1,21 @@
 from pyramid.response import Response
 from pyramid.view import view_config
-
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.httpexceptions import HTTPFound
 from .forms import EntryCreateForm, EntryEditForm
-
 from sqlalchemy.exc import DBAPIError
-
 # from ..models import MyModel
 from ..models.mymodel import Entry, DBSession
 from pyramid.security import forget, remember
 from .forms import LoginForm
 from ..models.mymodel import User
 from pyramid.security import authenticated_userid
+from jinja2 import Markup
+import markdown
 
+def render_markdown(content):
+    output = Markup(markdown.markdown(content))
+    return output
 
 # @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
 # def my_view(request):
@@ -38,7 +40,8 @@ def view(request):
     entry = Entry.by_id(this_id)
     if not entry:
         return HTTPNotFound()
-    return {'entry': entry}
+    logged_in = authenticated_userid(request)
+    return {'entry': entry, 'logged_in': logged_in}
 
 @view_config(route_name='action', match_param='action=create', renderer='templates/edit.jinja2', permission='create')
 def create(request):

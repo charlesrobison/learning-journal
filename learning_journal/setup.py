@@ -19,6 +19,8 @@ requires = [
     'waitress',
     'wtforms',
     'passlib',
+    'cryptacular',
+    'markdown',
     ]
 
 tests_require = [
