@@ -21,6 +21,7 @@ requires = [
     'passlib',
     'cryptacular',
     'markdown',
+    'pygments',
     ]
 
 tests_require = [

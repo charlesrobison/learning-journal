@@ -14,7 +14,12 @@ from jinja2 import Markup
 import markdown
 
 def render_markdown(content):
-    output = Markup(markdown.markdown(content))
+    output = Markup(
+        markdown.markdown(
+            content,
+            extensions=['codehilite(pygments_style=colorful)', 'fenced_code']
+        )
+    )
     return output
 
 # @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
